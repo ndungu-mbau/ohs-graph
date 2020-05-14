@@ -47,7 +47,7 @@ var config = {
     disk: DiskAdapter,
   },
   datastores: {
-    default: ['development', "test"].includes(NODE_ENV) ? {
+    default: !['development', "test"].includes(NODE_ENV) ? {
       adapter: 'mongo',
       url: DB_URL
     } : {
