@@ -2826,6 +2826,15 @@ http-proxy-agent@^3.0.0:
     agent-base "5"
     debug "4"
 
+http-signature@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.3.4.tgz#a65b41193110b222364e776fd1ac848655a0e2f0"
+  integrity sha512-CbG3io8gUSIxNNSgq+XMjgpTMzAeVRipxVXjuGrDhH5M1a2kZ03w20s8FCLR1NjnnJj10KbvabvckmtQcYNb9g==
+  dependencies:
+    assert-plus "^1.0.0"
+    jsprim "^1.2.2"
+    sshpk "^1.14.1"
+
 http-signature@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.2.0.tgz#9aecd925114772f3d95b65a60abb8f7c18fbace1"
@@ -3450,6 +3459,11 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+jssha@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/jssha/-/jssha-3.1.0.tgz#bc9d11cefeea5cdaf931cee12cc5771b31d80252"
+  integrity sha512-tPCmr8xSLd8ug6N51k0rbF1tAQWZz1i/uCVHpCH9dl+Te+wM/T375R3lTexP3bk1HPmQ+NlJHQPYLmYuyk6slA==
 
 jwa@^1.4.1:
   version "1.4.1"
@@ -5200,7 +5214,7 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sshpk@^1.7.0:
+sshpk@^1.14.1, sshpk@^1.7.0:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.16.1.tgz#fb661c0bef29b39db40769ee39fa70093d6f6877"
   integrity sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==
