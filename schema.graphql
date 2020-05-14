@@ -1,0 +1,545 @@
+type Query {
+  hello: String
+
+  users: [user]
+  user(user: Uuser!): user
+
+  roles: [role]
+  role(role: Urole!): role
+  roleByPermission(role: Urole!): [role]
+
+  departments: [department]
+  department(department: Udepartment!): department
+
+  divisions: [division]
+  division(division: Udivision!): division
+
+  scopes: [scope]
+  scope(scope: Uscope!): scope
+
+  jobs: [job]
+  job(job: Ujob!): job
+  technicianJobs(filter: jobStatus): [job]
+
+  controls: [control]
+  control(control: Ucontrol!): control
+
+  hazards: [hazard]
+  hazard(hazard: Uhazard!): hazard
+
+  compliances: [compliance]
+  compliance(compliance: Ucompliance!): compliance
+
+  statuses: [status]
+  status(status: Ustatus!): status
+
+  approvals: [approval]
+  approval(approval: Uapproval): approval
+
+  closuretypes: [closuretype]
+  closuretype(closuretype: Uclosuretype!): closuretype
+
+  closures: [closure]
+  closure(closure: Uclosure!): closure
+
+  documents: [document]
+  document(document: Udocument): document
+}
+
+type Mutation {
+  hello: String
+
+  users: userMutations
+  roles: roleMutations
+  departments: departmentMutations
+  divisions: divisionMutations
+  scopes: scopeMutations
+  jobs: jobMutations
+  controls: controlMutations
+  hazards: hazardMutations
+  compliances: complianceMutations
+  status: statusMutations
+  approvals: approvalMutations
+  closuretypes: closuretypeMutations
+  closures: closureMutations
+  documents: documentMutations
+}
+
+# user things
+type user {
+  id: String
+  name: String
+  phone: String
+  department: department
+  type: role
+  profile: String
+  fcm: String
+}
+
+input Iuser {
+  name: String!
+  phone: String!
+  department: String
+  type: String!
+  profile: String
+  fcm: String
+}
+
+input Uuser {
+  id: String!
+  name: String
+  phone: String
+  department: String
+  type: String
+  fcm: String
+  profile: String
+  password: String
+}
+
+type userMutations {
+  create(user: Iuser!): user
+  update(user: Uuser!): user
+  archive(user: Uuser!): user
+  restore(user: Uuser!): user
+}
+
+# department things
+type department {
+  id: String
+  name: String
+  division: division
+  manager: user
+  scopes: [scope]
+  users: [user]
+}
+
+input Idepartment {
+  name: String!
+  division: String!
+  manager: String!
+}
+
+input Udepartment {
+  id: String!
+  name: String
+  division: String
+  manager: String
+}
+
+type departmentMutations {
+  create(department: Idepartment!): department
+  update(department: Udepartment!): department
+  archive(department: Udepartment!): department
+  restore(department: Udepartment!): department
+}
+
+# division things
+type division {
+  id: String
+  name: String
+  description: String
+  departments: [department]
+  hod: user
+  users: [user]
+}
+
+input Idivision {
+  name: String!
+  description: String!
+  hod: String
+  ohs: String
+}
+
+input Udivision {
+  id: String!
+  name: String
+  description: String
+  hod: String
+  ohs: String
+}
+
+type divisionMutations {
+  create(division: Idivision!): division
+  update(division: Udivision!): division
+  archive(division: Udivision!): division
+  restore(division: Udivision!): division
+}
+
+# scope things
+type scope {
+  id: String
+  name: String
+  department: department
+  hazard: String
+}
+
+input Iscope {
+  name: String!
+  department: String!
+  hazard: String!
+}
+
+input Uscope {
+  id: String!
+  name: String
+  department: String
+  hazard: String
+}
+
+type scopeMutations {
+  create(scope: Iscope!): scope
+  update(scope: Uscope!): scope
+  archive(scope: Uscope!): scope
+  restore(scope: Uscope!): scope
+}
+
+#loc things
+type loc {
+  id: String
+  lat: Float
+  lng: Float
+}
+
+input Iloc {
+  lat: Float
+  lng: Float
+}
+
+input Uloc {
+  id: String!
+  lat: Float
+  lng: Float
+}
+
+#job things
+enum jobStatus{
+  NEW
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  PENDING
+  IN_PROGRESS
+  COMPLETE
+}
+
+# job status things
+type status{
+  id: String
+  type: jobStatus
+  reason: String
+  job: job
+  logs: [log]
+}
+
+type log{
+  id: String
+  type: jobStatus
+  datetime: String
+}
+
+input Istatus{
+  type: jobStatus!
+  reason: String
+  job: String!
+}
+
+input Ustatus{
+  id: String!
+  type: jobStatus
+  reason: String
+  job: String
+}
+
+type statusMutations{
+  create(status: Istatus!): status
+  update(status: Ustatus!): status
+  archive(status: Ustatus!): status
+  restore(status: Ustatus!): status
+}
+
+type job {
+  id: String
+  name: String
+  scope: scope
+  technician: user
+  author: user
+  ohs: user
+  location: loc
+  location_name: String
+  status: status
+  compliance: compliance
+  lv1_approval: approval
+  lv2_approval: approval
+  lv3_approval: approval
+  lv4_approval: approval
+  closure: [closure]
+}
+
+input Ijob {
+  name: String!
+  scope: String!
+  technician: String!
+  location: Iloc!
+  location_name: String!
+}
+
+input Ujob {
+  id: String!
+  name: String
+  scope: String
+  technician: String
+  location: Iloc
+  location_name: String
+}
+
+type jobMutations {
+  create(job: Ijob!): job
+  update(job: Ujob!): job
+  archive(job: Ujob!): job
+  restore(job: Ujob!): job
+}
+
+# role things
+enum roletype {
+  OHS
+  HOD
+  TECHNICIAN
+  AUTHOR
+  PROJECT_MANAGER
+}
+
+type role{
+  id: String
+  name: String
+  permissions: [roletype]
+}
+
+input Irole{
+  name: String!
+  permissions: [roletype]!
+}
+
+input Urole{
+  id: String
+  name: String
+  permissions: [roletype]
+}
+
+type roleMutations{
+  create(role: Irole!): role
+  update(role: Urole!): role
+  archive(role: Urole!): role
+  restore(role: Urole!): role
+}
+
+# control things
+type control{
+  id: String
+  text: String
+}
+
+input Icontrol{
+  text: String!
+}
+
+input Ucontrol{
+  id: String!
+  text: String
+}
+
+type controlMutations{
+  create(control: Icontrol!): control
+  update(control: Ucontrol!): control
+  archive(control: Ucontrol!): control
+  restore(control: Ucontrol!): control
+}
+
+# hazard things
+type hazard{
+  id: String
+  text: String
+  consequence: String
+  controls: [control]
+}
+
+input Ihazard{
+  text: String!
+  consequence: String!
+  controls: String!
+}
+
+input Uhazard{
+  id: String!
+  text: String
+  consequence: String
+  controls: String
+}
+
+type hazardMutations{
+  create(hazard: Ihazard!): hazard
+  update(hazard: Uhazard!): hazard
+  archive(hazard: Uhazard!): hazard
+  restore(hazard: Uhazard!): hazard
+}
+
+# compliance things
+type compliance{
+  id: String
+  ppe: String
+  induction: String
+  toolbox: String
+  jha: [hazard]
+  documents: [document]
+  erp: String
+  first_aid: String
+  extinguisher: String
+  job: job
+}
+
+input Icompliance{
+  ppe: String!
+  induction: String!
+  toolbox: String!
+  jha: [String]!
+  documents: [String]!
+  first_aid: String!
+  extinguisher: String!
+  erp: String!
+  job: String!
+}
+
+input Ucompliance{
+  id: String!
+  ppe: String
+  induction: String
+  toolbox: String
+  jha: [String]
+  documents: [String]
+  erp: String
+  first_aid: String
+  extinguisher: String
+  job: String
+}
+
+type complianceMutations{
+  create(compliance: Icompliance!): compliance
+  update(compliance: Ucompliance!): compliance
+  archive(compliance: Ucompliance!): compliance
+  restore(compliance: Ucompliance!): compliance
+}
+
+# approval things
+enum approvalLevels{
+  LVL_1
+  LVL_2
+  LVL_3
+  LVL_4
+}
+
+enum approvalStatuses{
+  ACCEPTED
+  REJECTED
+}
+
+type approval{
+  id: String
+  level: approvalLevels
+  approver: user
+  status: approvalStatuses
+  reason: String
+  job: job
+}
+
+input Iapproval{
+  level: approvalLevels!
+  status: approvalStatuses!
+  reason: String
+  job: String!
+}
+
+input Uapproval{
+  id: String!
+  level: approvalLevels
+  status: approvalStatuses
+  reason: String
+  job: String
+}
+
+type approvalMutations{
+  create(approval: Iapproval!): approval
+  update(approval: Uapproval!): approval
+  archive(approval: Uapproval!): approval
+  restore(approval: Uapproval!): approval
+}
+
+type closuretype{
+  id: String
+  name: String
+}
+
+input Iclosuretype{
+  name: String!
+}
+
+input Uclosuretype{
+  id: String!
+  name: String
+}
+
+type closuretypeMutations{
+  create(closuretype: Iclosuretype!): closuretype
+  update(closuretype: Uclosuretype!): closuretype
+  archive(closuretype: Uclosuretype!): closuretype
+  restore(closuretype: Uclosuretype!): closuretype
+}
+
+type closure{
+  id: String
+  closuretype: closuretype
+  amount: Int
+  job: job
+}
+
+input Iclosure{
+  closuretype: [String]!
+  amount: [String]!
+  job: String!
+}
+
+input Uclosure{
+  id: String!
+  closuretype: String
+  amount: Int
+  job: String
+}
+
+type closureMutations{
+  create(closure: Iclosure!): [closure]
+  update(closure: Uclosure!): closure
+  archive(closure: Uclosure!): closure
+  restore(closure: Uclosure!): closure
+}
+
+type document{
+  id: String
+  name: String
+  url: String
+}
+
+input Idocument{
+  name: String
+  url: String
+}
+
+input Udocument{
+  id: String!
+  name: String
+  url: String
+}
+
+type documentMutations{
+  create(document: Idocument!): document
+  update(document: Udocument!): document
+  archive(document: Udocument!): document
+  restore(document: Udocument!): document
+}
