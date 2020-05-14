@@ -11,6 +11,7 @@ import graphRouter from "./index"
 import { authMiddleware, router as authRouter } from "./auth"
 import storage from "./storage"
 import firebase from "./utils/firebase"
+import { upload as uploadFile } from "./utils/oracle"
 
 const { NODE_ENV, PORT = 3000, SYSADMIN_PHONE, SYSADMIN_NAME, SYSADMIN_PASSWORD } = process.env
 const upload = multer({
@@ -20,7 +21,7 @@ const upload = multer({
     },
     filename(req, file, cb) {
       const [filename, ext] = file.originalname.split(".")
-      cb(null, `${filename}|${req.body.datetime}|${Date.now()}.${ext}`)
+      cb(null, `${filename}-${req.body.datetime}-${Date.now()}.${ext}`)
     }
   })
 })
@@ -73,12 +74,7 @@ const attatchRouter = async () => {
   app.get("/health", (req, res) => res.json({ ok: true, message: "welcome to graph api" }));
   app.use("/auth", authRouter)
   app.use("/", authMiddleware, graphRouter)
-  app.use("/upload", authMiddleware, upload.single('file'), async (req, res) => {
-
-    console.log({ body: req.body, file: req.file })
-    const { url } = await firebase.upload({ file: req.file })
-    res.json({ url })
-  })
+  app.use("/upload", authMiddleware, upload.single('file'), uploadFile)
 }
 
 attatchRouter()
