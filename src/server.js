@@ -23,8 +23,8 @@ const upload = multer({
       const tmp = file.originalname.split(".")
       const ext = tmp[tmp.length - 1]
       const filename = tmp.slice(0, tmp.length - 1)
-      console.log(filename.join(""), filename.join("").replace(" ", "-"))
-      cb(null, `${filename.join("").replace(" ", "-")}--${Date.now()}.${ext}`)
+      console.log(filename.join(""), filename.join("").replace(/\s/, "-"), encodeURIComponent(filename.join("").replace(/\s/, "-")))
+      cb(null, encodeURIComponent(`${filename.join("").replace(/\s/, "-")}-${Date.now()}.${ext}`))
     }
   })
 })
