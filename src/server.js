@@ -20,9 +20,9 @@ const upload = multer({
       cb(null, './tmp')
     },
     filename(req, file, cb) {
-      const [filename, ext] = file.originalname.split(".")
-      console.log(filename, filename.replace(" ", "-"))
-      cb(null, `${filename.replace(" ", "-")}--${Date.now()}.${ext}`)
+      const [...filename, ext] = file.originalname.split(".")
+      console.log(filename.join(""), filename.join("").replace(" ", "-"))
+      cb(null, `${filename.join("").replace(" ", "-")}--${Date.now()}.${ext}`)
     }
   })
 })
