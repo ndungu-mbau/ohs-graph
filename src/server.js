@@ -21,7 +21,7 @@ const upload = multer({
     },
     filename(req, file, cb) {
       const [filename, ext] = file.originalname.split(".")
-      cb(null, `${filename}-${req.body.datetime}-${Date.now()}.${ext}`)
+      cb(null, `${filename.replace(" ", "-")}--${Date.now()}.${ext}`)
     }
   })
 })
