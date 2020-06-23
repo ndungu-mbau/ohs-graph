@@ -7,23 +7,11 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
     }
   });
 
-  const scopes = await collections["scope"].find({
-    where: {
-      isDeleted: false
-    }
-  })
+  const scopes = await collections["scope"].find()
 
-  const departments = await collections["department"].find({
-    where: {
-      isDeleted: false
-    }
-  })
+  const departments = await collections["department"].find()
 
-  const divisions = await collections["division"].find({
-    where: {
-      isDeleted: false
-    }
-  })
+  const divisions = await collections["division"].find()
 
   const filteredEntries = entries.filter(job => {
     const scope = scopes.find(({ id }) => id === job.scope)
@@ -34,7 +22,7 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
 
     const division = divisions.find(({ id }) => id === department.division)
     console.log({ division })
-    
+
     const ids = [job.author, department.manager, division.hod, job.ohs]
     return ids.includes(loggedInId)
   })
