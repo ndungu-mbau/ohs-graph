@@ -15,13 +15,8 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
 
   const filteredEntries = entries.filter(job => {
     const scope = scopes.find(({ id }) => id === job.scope)
-    console.log({ scope, ids: departments.map(dept => dept.id) })
-
     const department = departments.find(({ id }) => id === scope.department)
-    console.log({ department })
-
     const division = divisions.find(({ id }) => id === department.division)
-    console.log({ division })
 
     const ids = [job.author, department.manager, division.hod, job.ohs]
     return ids.includes(loggedInId)
