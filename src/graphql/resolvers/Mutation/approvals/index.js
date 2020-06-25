@@ -17,13 +17,13 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
 
     const [job] = await collections["job"].find({ where: { id: entry.job }}).limit(1)
     const [status] = await collections["status"].find({ where: { job: entry.job }}).limit(1)
-    const [department] = await collections["department"].find({ where: { id: job.department }}).limit(1)
     const [scope] = await collections["scope"].find({ where: { id: job.scope }}).limit(1)
-    const [division] = await collections["division"].find({ where: { id: scope.division }}).limit(1)
+    const [department] = await collections["department"].find({ where: { id: scope.department }}).limit(1)
+    const [division] = await collections["division"].find({ where: { id: department.division }}).limit(1)
 
     const [technician] = await collections["user"].find({ where: { id: job.technician }}).limit(1)
-    const [pm] = await collections["user"].find({ where: { id: division.pm }}).limit(1)
-    const [hod] = await collections["user"].find({ where: { id: department.hod }}).limit(1)
+    const [pm] = await collections["user"].find({ where: { id: department.manager }}).limit(1)
+    const [hod] = await collections["user"].find({ where: { id: division.hod }}).limit(1)
     const [ohs] = await collections["user"].find({ where: { id: job.ohs }}).limit(1)
 
     if(entry.status === "REJECTED"){
