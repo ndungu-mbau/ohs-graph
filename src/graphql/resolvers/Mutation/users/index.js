@@ -9,14 +9,16 @@ const create = async (data, { db: { collections } }) => {
   const entry = Object.assign(data[name], { id, password: sha1("loginpass"), isDeleted: false });
 
   try {
-    const user = await collections[name].findOne({ where: { phone: entry.phone, isDeleted: false }})
+    const user = await collections[name].findOne({ where: { phone: entry.phone }})
 
     if(!user){
       await collections[name].create(entry);
 
       return entry;
     } else {
-      throw new UserError(`User with contact ${entry.phone} already exists`)
+      await collections[name].update({ id: user.id }).set({ isDeleted: false });
+
+      return entry;
     }
   } catch (err) {
     throw new UserError(err.details);
