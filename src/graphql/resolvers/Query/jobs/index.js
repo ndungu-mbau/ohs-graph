@@ -18,7 +18,7 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
     const department = departments.find(({ id }) => id === scope.department)
     const division = divisions.find(({ id }) => id === department.division)
 
-    const ids = [job.author, department.manager, division.hod, job.ohs]
+    const ids = [job.author, department.manager, division.hod, division.ohs]
     return ids.includes(loggedInId)
   })
 
