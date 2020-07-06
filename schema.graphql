@@ -140,6 +140,7 @@ type division {
   description: String
   departments: [department]
   hod: user
+  ohs: user
   users: [user]
 }
 
