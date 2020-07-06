@@ -11,7 +11,6 @@ export default Waterline.Collection.extend({
     name: { type: "string", required: true },
     scope : { type: "string", required: true },
     technician: { type: "string", required: true },
-    ohs: { type: "string", required: true },
     author: { type: "string", required: true },
     location: { type: "string", required: true },
     location_name: { type: "string", required: true },

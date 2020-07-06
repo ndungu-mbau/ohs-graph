@@ -17,17 +17,8 @@ const create = async (data, { db: { collections }, user }) => {
 
   try {
     const technician = await collections["user"].findOne({ where: { id: entry.technician }})
-    const allRoles = await collections["role"].find({ where: { isDeleted: false }})
-    const roles = allRoles.filter(role => {
-      return role.permissions.split(",").includes("OHS")
-    }).map(role => {
-      return role.id
-    })
 
-    const users = await collections["user"].find({ where: { isDeleted: false }})
-    const ohs = users.filter(user => roles.includes(user.type))
-
-    await collections[name].create(Object.assign(entry, { ohs: ohs[Math.floor(Math.random() * ohs.length)].id }));
+    await collections[name].create(entry);
     await collections["status"].create(statusEntry)
     await collections["log"].create(logEntry)
 

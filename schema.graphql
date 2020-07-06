@@ -263,7 +263,6 @@ type job {
   scope: scope
   technician: user
   author: user
-  ohs: user
   location: loc
   location_name: String
   status: status
