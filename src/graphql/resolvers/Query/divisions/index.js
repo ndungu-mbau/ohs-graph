@@ -33,10 +33,6 @@ const nested = {
       const entry = await collections["user"].findOne({ where : { id: root.hod }})
       return entry
     },
-    ohs: async (root, args, { db: { collections }}) => {
-      const entry = await collections["user"].findOne({ where : { id: root.ohs }})
-      return entry
-    },
     departments: async (root, args, { db: { collections }}) => {
       const entries = await collections["departments"].find({ where: { department: root.id }})
       return entries

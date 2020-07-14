@@ -109,6 +109,7 @@ type department {
   name: String
   division: division
   manager: user
+  ohs: user
   scopes: [scope]
   users: [user]
 }
@@ -117,6 +118,7 @@ input Idepartment {
   name: String!
   division: String!
   manager: String!
+  ohs: String!
 }
 
 input Udepartment {
@@ -124,6 +126,7 @@ input Udepartment {
   name: String
   division: String
   manager: String
+  ohs: String
 }
 
 type departmentMutations {
@@ -140,7 +143,6 @@ type division {
   description: String
   departments: [department]
   hod: user
-  ohs: user
   users: [user]
 }
 
@@ -148,7 +150,6 @@ input Idivision {
   name: String!
   description: String!
   hod: String
-  ohs: String
 }
 
 input Udivision {
@@ -156,7 +157,6 @@ input Udivision {
   name: String
   description: String
   hod: String
-  ohs: String
 }
 
 type divisionMutations {
