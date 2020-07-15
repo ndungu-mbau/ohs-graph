@@ -6,13 +6,16 @@ const { UserError } = require("graphql-errors");
 const create = async (data, { db: { collections } }) => {
   const id = new ObjectId().toHexString();
   const entry = Object.assign(data[name], { id, isDeleted: false });
-  const { manager } = entry
+  const { manager, ohs } = entry
 
   try {
     await collections[name].create(entry);
-    const user = await collections["user"].findOne({ where: { id: manager }})
-    console.log(user)
-    await collections["user"].update({ id: user.id }).set({ department: id })
+    
+    const managerEntry = await collections["user"].findOne({ where: { id: manager }})
+    const ohsEntry = await collections["user"].findOne({ where: { id: ohs }})
+
+    await collections["user"].update({ id: managerEntry.id }).set({ department: id })
+    await collections["user"].update({ id: ohsEntry.id }).set({ department: id })
 
     return entry;
   } catch (err) {
