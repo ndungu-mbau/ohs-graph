@@ -12,16 +12,16 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
   const departments = await collections["department"].find()
   const divisions = await collections["division"].find()
 
-  const roles = await collections["role"].find({ where: { isDeleted: false }})
-  const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
-
-  const dept_users = await collections["user"].find({ where: { department: department.id }})
-  const team_leads = dept_users.filter(user => tl_roles.includes(user.role)).map(user => user.id)
-
   const filteredEntries = entries.filter(job => {
     const scope = scopes.find(({ id }) => id === job.scope)
     const department = departments.find(({ id }) => id === scope.department)
     const division = divisions.find(({ id }) => id === department.division)
+
+    const roles = await collections["role"].find({ where: { isDeleted: false }})
+    const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
+
+    const dept_users = await collections["user"].find({ where: { department: department.id }})
+    const team_leads = dept_users.filter(user => tl_roles.includes(user.role)).map(user => user.id)
 
     const ids = [job.author, department.manager, division.hod, department.ohs]
     return ids.includes(loggedInId) || team_leads.includes(loggedInId)
