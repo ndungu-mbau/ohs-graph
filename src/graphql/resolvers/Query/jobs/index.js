@@ -10,8 +10,13 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
   const scopes = await collections["scope"].find()
 
   const departments = await collections["department"].find()
-
   const divisions = await collections["division"].find()
+
+  const roles = await collection["role"].find({ where: { isDeleted: false }})
+  const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
+
+  const dept_users = await collection["user"].find({ where: { department: department.id }})
+  const team_leads = dept_users.filter(user => tl_roles.includes(user.role))
 
   const filteredEntries = entries.filter(job => {
     const scope = scopes.find(({ id }) => id === job.scope)
@@ -19,7 +24,7 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
     const division = divisions.find(({ id }) => id === department.division)
 
     const ids = [job.author, department.manager, division.hod, division.ohs]
-    return ids.includes(loggedInId)
+    return ids.includes(loggedInId) || team_leads.includes(loggedInId)
   })
 
   return filteredEntries;
