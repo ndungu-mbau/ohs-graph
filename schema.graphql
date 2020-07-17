@@ -306,6 +306,7 @@ enum roletype {
   TECHNICIAN
   AUTHOR
   PROJECT_MANAGER
+  TEAM_LEAD
 }
 
 type role{
