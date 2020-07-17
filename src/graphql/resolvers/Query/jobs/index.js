@@ -12,10 +12,10 @@ const list = async (root, args, { db: { collections }, user: { id: loggedInId } 
   const departments = await collections["department"].find()
   const divisions = await collections["division"].find()
 
-  const roles = await collection["role"].find({ where: { isDeleted: false }})
+  const roles = await collections["role"].find({ where: { isDeleted: false }})
   const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
 
-  const dept_users = await collection["user"].find({ where: { department: department.id }})
+  const dept_users = await collections["user"].find({ where: { department: department.id }})
   const team_leads = dept_users.filter(user => tl_roles.includes(user.role)).map(user => user.id)
 
   const filteredEntries = entries.filter(job => {
