@@ -112,6 +112,7 @@ type department {
   ohs: user
   scopes: [scope]
   users: [user]
+  team_leads: [user]
 }
 
 input Idepartment {
