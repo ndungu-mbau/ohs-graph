@@ -15,6 +15,10 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
     await collections[name].destroyOne({ where: { job: entry.job, level: entry.level }})
     await collections[name].create(entry);
 
+    const roles = await collection["role"].find({ where: { isDeleted: false }})
+    const tl_roles = roles.filter(role => role.permission.includes("TEAM_LEAD")).map(role => role.id)
+
+
     const [job] = await collections["job"].find({ where: { id: entry.job }}).limit(1)
     const [status] = await collections["status"].find({ where: { job: entry.job }}).limit(1)
     const [scope] = await collections["scope"].find({ where: { id: job.scope }}).limit(1)
@@ -23,6 +27,8 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
 
     const [technician] = await collections["user"].find({ where: { id: job.technician }}).limit(1)
     const [pm] = await collections["user"].find({ where: { id: department.manager }}).limit(1)
+    const dept_users = await collection["user"].find({ where: { department: department.id }})
+    const team_leads = dept_users.filter(user => tl_roles.includes(user.role))
     const [hod] = await collections["user"].find({ where: { id: division.hod }}).limit(1)
     const [ohs] = await collections["user"].find({ where: { id: job.ohs }}).limit(1)
 
@@ -32,7 +38,7 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
 
       sms({ data: {
         phone: technician.phone,
-        message: `You have a pending approval for job ${job.name} on level 2`
+        message: `Job ${job.name} approval was rejected.`
       }})
     }
 
@@ -49,6 +55,22 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
         phone: pm.phone,
         message: `You have a pending approval for job ${job.name} on level 2`
       }})
+
+      team_leads.forEach(async team_lead => {
+        await firebase.send({
+          notification: {
+            title: "Pending Approval",
+            body: `You have a pending approval for job ${job.name} on level 2`
+          },
+          token: team_lead.fcm
+        })
+
+        sms({ data: {
+          phone: team_lead.phone,
+          message: `You have a pending approval for job ${job.name} on level 2`
+        }})
+      })
+
     }
 
     if(entry.level === "LVL_2" && scope.hazard === "HIGH" && entry.status !== "REJECTED"){
