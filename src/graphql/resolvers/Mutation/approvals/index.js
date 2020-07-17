@@ -16,7 +16,7 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
     await collections[name].create(entry);
 
     const roles = await collection["role"].find({ where: { isDeleted: false }})
-    const tl_roles = roles.filter(role => role.permission.includes("TEAM_LEAD")).map(role => role.id)
+    const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
 
 
     const [job] = await collections["job"].find({ where: { id: entry.job }}).limit(1)
