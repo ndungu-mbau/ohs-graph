@@ -49,7 +49,7 @@ const nested = {
       const entries = await collections["user"].find({ where: { department: root.id }})
       return entries
     },
-    team_leads: async (root, args, { db: collections }) => {
+    team_leads: async (root, args, { db: { collections }}) => {
       const roles = await collections["role"].find({ where: { isDeleted: false }})
       const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
 
