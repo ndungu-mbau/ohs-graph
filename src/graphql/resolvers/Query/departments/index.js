@@ -54,7 +54,7 @@ const nested = {
       const tl_roles = roles.filter(role => role.permissions.includes("TEAM_LEAD")).map(role => role.id)
 
       const dept_users = await collections["user"].find({ where: { department: root.id }})
-      const team_leads = dept_users.filter(user => tl_roles.includes(user.role))
+      const team_leads = dept_users.filter(user => tl_roles.includes(user.type))
 
       return team_leads
     }
