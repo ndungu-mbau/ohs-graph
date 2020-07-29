@@ -22,10 +22,11 @@ const create = async (data, { db: { collections } }) => {
         phone: user.phone,
         department: entry.department,
         type: entry.type,
-        password: user.password
+        password: user.password,
+        isDeleted: false
       }
 
-      await collections[name].update({ id: user.id }).set({ ...newUser, isDeleted: false });
+      await collections[name].update({ id: user.id }).set(newUser);
 
       return entry;
     }
