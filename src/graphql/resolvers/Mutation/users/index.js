@@ -16,7 +16,16 @@ const create = async (data, { db: { collections } }) => {
 
       return entry;
     } else {
-      await collections[name].update({ id: user.id }).set({ isDeleted: false });
+      const newUser = {
+        id: user.id,
+        name: entry.name,
+        phone: user.phone,
+        department: entry.department,
+        type: entry.type,
+        password: user.password
+      }
+
+      await collections[name].update({ id: user.id }).set({ ...newUser, isDeleted: false });
 
       return entry;
     }
