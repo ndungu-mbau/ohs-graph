@@ -28,7 +28,7 @@ const create = async (data, { db: { collections }, user: { id: approver } }) => 
     const [technician] = await collections["user"].find({ where: { id: job.technician }}).limit(1)
     const [pm] = await collections["user"].find({ where: { id: department.manager }}).limit(1)
     const dept_users = await collections["user"].find({ where: { department: department.id }})
-    const team_leads = dept_users.filter(user => tl_roles.includes(user.role))
+    const team_leads = dept_users.filter(user => tl_roles.includes(user.type))
     const [hod] = await collections["user"].find({ where: { id: division.hod }}).limit(1)
     const [ohs] = await collections["user"].find({ where: { id: job.ohs }}).limit(1)
 
