@@ -16,7 +16,7 @@ const create = async (data, { db: { collections } }) => {
     const job = await collections["job"].findOne({ where: { id: entry.job }})
     const author = await collections["user"].findOne({ where: { id: job.author }})
 
-    await collections[name].destroyOne({ where: { job: entry.job }})
+    await collections[name].destroy({ where: { job: entry.job }})
     await collections["approval"].destroy({ where: { job: entry.job }})
     await collections[name].create(entry);
     await collections["status"].update({ id: status.id }).set({ type: "ACCEPTED" })
