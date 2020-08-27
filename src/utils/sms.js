@@ -1,15 +1,10 @@
-require("dotenv").config()
 const request = require("request")
 // Require `PhoneNumberFormat`.
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 // Get an instance of `PhoneNumberUtil`.
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
-// const { SENDER_ID: SenderId, API_KEY: ApiKey, CLIENT_ID: ClientId } = process.env4
-
-const SENDER_ID = "ADRIANKE",
-API_KEY="ftrdghDvbi0mOntRQVsTLmEeEnG7XVrEs8XRHUDB5MM=",
-CLIENT_ID="76102296-1a96-4f09-9c73-6353033321b7"
+const { SENDER_ID: SenderId, API_KEY: ApiKey, CLIENT_ID: ClientId } = process.env
 
 const func = ({ data: { phone, message } }, reply = console.log) => {
   const number = phoneUtil.parseAndKeepRawInput(phone, 'KE');
@@ -23,12 +18,12 @@ const func = ({ data: { phone, message } }, reply = console.log) => {
       'content-type': 'application/json',
       accept: 'application/json',
     },
-    form: {
+    json: {
       MobileNumbers: coolNumber.slice(1),
       Message: Body,
-      SenderId: SENDER_ID,
-      ApiKey: API_KEY,
-      ClientId: CLIENT_ID
+      SenderId,
+      ApiKey,
+      ClientId
     }
   }
 
