@@ -85,7 +85,7 @@ const nested = {
       return entry
     },
     compliance: async (root, args, { db: { collections }}) => {
-      const entry = await collections["compliance"].findOne({ where : { job: root.id }})
+      const [entry] = await collections["compliance"].find({ where : { job: root.id }})
       return entry
     },
     status: async (root, args, { db: { collections }}) => {
@@ -93,19 +93,19 @@ const nested = {
       return entry
     },
     lv1_approval: async (root, args, { db: { collections }}) => {
-      const entry = await collections["approval"].findOne({ where : { job: root.id, level: "LVL_1" }})
+      const [entry] = await collections["approval"].find({ where : { job: root.id, level: "LVL_1" }})
       return entry
     },
     lv2_approval: async (root, args, { db: { collections }}) => {
-      const entry = await collections["approval"].findOne({ where : { job: root.id, level: "LVL_2" }})
+      const [entry] = await collections["approval"].find({ where : { job: root.id, level: "LVL_2" }})
       return entry
     },
     lv3_approval: async (root, args, { db: { collections }}) => {
-      const entry = await collections["approval"].findOne({ where : { job: root.id, level: "LVL_3" }})
+      const [entry] = await collections["approval"].find({ where : { job: root.id, level: "LVL_3" }})
       return entry
     },
     lv4_approval: async (root, args, { db: { collections }}) => {
-      const entry = await collections["approval"].findOne({ where : { job: root.id, level: "LVL_4" }})
+      const [entry] = await collections["approval"].find({ where : { job: root.id, level: "LVL_4" }})
       return entry
     },
     closure: async (root, args, { db: { collections }}) => {
